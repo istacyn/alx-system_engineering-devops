@@ -1,1 +1,1 @@
-Display current directory contents, including hidden files (starting with .)
+Display current directory contents/lomg format/ IDs displayed numerically/hiddenfiles
