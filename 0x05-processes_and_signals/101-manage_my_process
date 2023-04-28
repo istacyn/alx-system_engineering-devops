@@ -9,12 +9,12 @@ case "$1" in
 		;;
 	stop)
 		kill "$(cat /var/run/my_process.pid)"
-		rm /var/run/my_process.pid
+		rm -f /var/run/my_process.pid
 		echo "manage_my_process stopped"
 		;;	
 	restart)
 		kill "$(cat /var/run/my_process.pid)"
-		rm /var/run/my_process.pid
+		rm -f /var/run/my_process.pid
 		/path/to/manage_my_process &
                 echo $! > /var/run/my_process.pid
                 echo "manage_my_process restarted"
