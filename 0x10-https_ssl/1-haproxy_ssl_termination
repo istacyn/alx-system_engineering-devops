@@ -33,18 +33,26 @@ defaults
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
 
+listen istacyn
+        bind :80
+        mode http
+	balance roundrobin
+	server 198968-web-01 100.25.156.228:80 check
+        server 198968-web-02 100.25.36.161:80 check
+	
+
 frontend  www-http
-        bind *:80
+        bind :80
         mode http
 	http-request set-header X-Forwarded-Proto http
         default_backend www-backend
 
 frontend www-https
-	bind *:443 ssl crt /etc/haproxy/certs/www.istacyn.tech.pem
+	bind :443 ssl crt /etc/haproxy/certs/www.istacyn.tech.pem
 	http-request set-header X-Forwarded-Proto https
 	default_backend www-backend
 
 backend www-backend
-        balance roundrobin
+        redirect scheme https if !{ ssl_fc }
         server 198968-web-01 100.25.156.228:80 check
         server 198968-web-02 100.25.36.161:80 check
