@@ -4,28 +4,28 @@ from requests import get
 from sys import argv
 
 
-def todo(emp_id):
+def todo(employee_id):
     """
     Fetches the employee's TODO list progress
     from a REST API and prints the information.
     """
     total = 0
     completed = 0
-    url_user = 'https://jsonplaceholder.typicode.com/users/'
-    url_todo = 'https://jsonplaceholder.typicode.com/todos/'
+    user_url = 'https://jsonplaceholder.typicode.com/users/'
+    todo_url = 'https://jsonplaceholder.typicode.com/todos/'
 
     # check if user exists
-    user = get(url_user + emp_id).json().get('name')
+    user = get(user_url + employee_id).json().get('name')
 
     if user:
-        params = {'userId': emp_id}
+        params = {'userId': employee_id}
         #  get all tasks
-        tasks = get(url_todo, params=params).json()
+        tasks = get(todo_url, params=params).json()
         if tasks:
             total = len(tasks)
             #  get number of completed tasks
             params.update({'completed': 'true'})
-            completed = len(get(url_todo, params=params).json())
+            completed = len(get(todo_url, params=params).json())
 
         print("Employee {} is done with tasks({}/{}):".format(
             user, completed, total))
