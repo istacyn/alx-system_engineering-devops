@@ -4,36 +4,36 @@ from requests import get
 from sys import argv
 
 
-def employee_todo(employee_id):
+def todo(emp_id):
     """
     Fetches the employee's TODO list progress
     from a REST API and prints the information.
     """
-    total_tasks = 0
+    total = 0
     completed = 0
+    url_user = 'https://jsonplaceholder.typicode.com/users/'
+    url_todo = 'https://jsonplaceholder.typicode.com/todos/'
 
-    user_url = "https://jsonplaceholder.typicode.com/users"
-    todo_url = "https://jsonplaceholder.typicode.com/todos"
-
-    user = get(user_url + employee_id).json().get("name")
+    # check if user exists
+    user = get(url_user + emp_id).json().get('name')
 
     if user:
-        param = {"user_id": employee_id}
-
-        tasks = get(todo_url, param=param).json()
+        params = {'userId': emp_id}
+        #  get all tasks
+        tasks = get(url_todo, params=params).json()
         if tasks:
-            total_tasks = len(tasks)
-            param.update({"completed": "true"})
-            completed = len(get(todo_url, param=param).json())
+            total = len(tasks)
+            #  get number of completed tasks
+            params.update({'completed': 'true'})
+            completed = len(get(url_todo, params=params).json())
 
-        print("Employee {} is done with tasks ({}/{}):"
-              .format(user, completed, total_tasks))
-
+        print("Employee {} is done with tasks({}/{}):".format(
+            user, completed, total))
         for task in tasks:
-            if task.get("completed") is True:
-                print("\t {}".format(task.get("title")))
+            if task.get('completed') is True:
+                print("\t {}".format(task.get('title')))
 
 
 if __name__ == '__main__':
     if len(argv) > 1:
-        employee_todo(argv[1])
+        todo(argv[1])
