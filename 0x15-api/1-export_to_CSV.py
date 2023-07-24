@@ -19,7 +19,7 @@ def todo_csv(employee_id):
     user = get(user_url + employee_id).json().get("username")
 
     if user:
-        params = {"user_id": employee_id}
+        params = {"userId": employee_id}
         tasks = get(todo_url, params=params).json()
         if tasks:
             with open(file_name, "w", newline="", encoding="utf8") as f:
