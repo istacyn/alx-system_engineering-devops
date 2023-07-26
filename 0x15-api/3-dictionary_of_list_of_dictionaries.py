@@ -8,24 +8,14 @@ from sys import argv
 
 
 if __name__ == "__main__":
-    url = "https://jsonplaceholder.typicode.com/users"
-
+    url = "https://jsonplaceholder.typicode.com/"
     users = get(url + "users").json()
 
-    dictionary = {}
-    for user in users:
-        user_id = user.get("id")
-        username = user.get("username")
-        url = "https://jsonplaceholder.typicode.com/users/{}".format(user_id)
-        url = url + "todos"
-        response = requests.get(url)
-        tasks = response.json()
-        dictionary[user_id] = []
-        for task in tasks:
-            dictionary[user_id].append({
+    with open("todo_all_employees.json", "w") as file:
+        dump({
+            user.get("id"): [{
                 "task": task.get("title"),
                 "completed": task.get("completed"),
-                "username": username
-            })
-    with open("todo_all_employees.json", "w") as file:
-        dump(dictionary, file)
+                "username": user.get("username")
+            } for task in get(url + "todos", params={"userId": user.get("id")}).json()]
+            for user in users}, file)
