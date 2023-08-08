@@ -27,7 +27,7 @@ def count_words(subreddit, word_list, key_words={}, count=(), after=None):
     headers = {"User-Agent": "MyUserAgent"}
 
     response = get(url, headers=headers, params=params,
-                            allow_redirects=False)
+                   allow_redirects=False)
 
     if response.status_code == 200:
         data = response.json().get('data')
@@ -41,7 +41,7 @@ def count_words(subreddit, word_list, key_words={}, count=(), after=None):
             for word in key_words.keys():
                 key_words[word] += words.count(word)
 
-        #  # Recursively call the function with the 'after' token for pagination
+        # Recursively call function with the 'after' token for pagination
         if after:
             return count_words(subreddit, word_list, key_words, count, after)
         else:
