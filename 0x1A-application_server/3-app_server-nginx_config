@@ -53,7 +53,7 @@ server {
 
 	# Application Server Configuration
 	location /airbnb-onepage/ {
-		proxy_pass http://127.0.0.1:5000;
+		proxy_pass http://0.0.0.0:5000;
 	}
 
 	location ~ ^/airbnb-dynamic/number_odd_or_even/(\d+) {
